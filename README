@@ -1,0 +1,2 @@
+This is a simple wrapper around start-stop-daemon to
+do the right thing most of the time.

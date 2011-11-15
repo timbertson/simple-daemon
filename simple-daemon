@@ -1,0 +1,54 @@
+#!/usr/bin/env python
+
+import os, sys, subprocess
+import optparse
+
+class UsageError(RuntimeError): pass
+
+try:
+	p = optparse.OptionParser("usage: %prog [options] <status|start|stop>")
+	p.add_option('-p', '--pidfile', help="PID file location (required)")
+	p.add_option('-e', '--exec', dest='executable', help="binary to execute (required)")
+	opts, args = p.parse_args()
+	pidfile = opts.pidfile
+	executable = opts.executable
+	assert None not in (pidfile, executable), p.get_usage()
+
+	assert len(args) >= 1, p.get_usage()
+	action = args.pop(0)
+	assert action in ('start', 'stop', 'status'), p.get_usage()
+	if not os.path.isfile(executable):
+		executable = subprocess.check_output(['which', executable]).strip()
+	if not os.path.isfile(executable):
+		raise UsageError, "No such executable: %s" % (executable,)
+	executable = os.path.abspath(executable)
+
+
+	name = os.path.basename(executable)
+	if action == 'status':
+		running = False
+		try:
+			pid = int(open(pidfile).read().strip())
+			os.kill(pid, 0)
+			running = True
+		except (IOError, OSError), e:
+			running = False
+		print "%s: %s" % (name, ("running (pid %s)" % (pid,)) if running else "not running")
+		sys.exit(0)
+	daemon_args = []
+	if action == 'start':
+		daemon_args.append('--background')
+
+	subprocess.check_call(['start-stop-daemon'] + daemon_args +
+			['--pidfile', pidfile,
+				'--%s' % action,
+				'--make-pidfile',
+				'--startas', executable,
+				'--'] + args)
+	if action == 'stop':
+		os.remove(pidfile)
+except (KeyboardInterrupt, subprocess.CalledProcessError):
+	sys.exit(1)
+except (AssertionError,UsageError), e:
+	print >> sys.stderr, e
+	sys.exit(1)

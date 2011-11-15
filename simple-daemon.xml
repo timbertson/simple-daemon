@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type='text/xsl' href='interface.xsl'?>
+<interface xmlns="http://zero-install.sourceforge.net/2004/injector/interface" uri="http://gfxmonk.net/dist/0install/simple-daemon.xml">
+	<name>simple-daemon</name>
+	<summary>simple daemon wrapper</summary>
+	<description>
+This is a simple wrapper around start-stop-daemon to
+do the right thing most of the time.
+	</description>
+	<group main="simple-daemon">
+		<command name="run" path="simple-daemon">
+			<runner interface="http://repo.roscidus.com/python/python"/>
+		</command>
+		<environment insert="" mode="prepend" name="PATH"/>
+		<implementation id="sha1new=7f8ab079982b59e85ce69e51396f05b67f267d58" released="2011-11-15" version="0.1">
+			<manifest-digest sha256="565c996d3707a17fb1dca264604534f93eb8c0f7297936650afa7a79886b679d"/>
+			<archive href="http://gfxmonk.net/dist/0install/simple-daemon/simple-daemon-0.1.tgz" size="859"/>
+		</implementation>
+	</group>
+</interface>
