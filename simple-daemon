@@ -13,11 +13,12 @@ try:
 	pidfile = opts.pidfile
 	executable = opts.executable
 	assert None not in (pidfile, executable), p.get_usage()
-
 	assert len(args) >= 1, p.get_usage()
 	action = args.pop(0)
 	assert action in ('start', 'stop', 'status'), p.get_usage()
+
 	if not os.path.isfile(executable):
+		# start-stop-daemon requires a full path, so we best do that:
 		executable = subprocess.check_output(['which', executable]).strip()
 	if not os.path.isfile(executable):
 		raise UsageError, "No such executable: %s" % (executable,)
