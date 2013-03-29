@@ -16,5 +16,9 @@ do the right thing most of the time.
 			<manifest-digest sha256="565c996d3707a17fb1dca264604534f93eb8c0f7297936650afa7a79886b679d"/>
 			<archive href="http://gfxmonk.net/dist/0install/simple-daemon/simple-daemon-0.1.tgz" size="859"/>
 		</implementation>
+		<implementation id="sha1new=43843254b82f087544d60e88813a78a8dcb53670" released="2013-03-29" version="0.1.1">
+			<manifest-digest sha256new="PQ54FPGHASJS2OVURZPXYZY3G4TTR3X2UFCRTBAK2EI2UDAQ6NXA"/>
+			<archive href="http://gfxmonk.net/dist/0install/simple-daemon/simple-daemon-0.1.1.tgz" size="918"/>
+		</implementation>
 	</group>
 </interface>

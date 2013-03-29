@@ -39,6 +39,9 @@ try:
 	daemon_args = []
 	if action == 'start':
 		daemon_args.append('--background')
+	if action == 'stop':
+		daemon_args.append('--retry')
+		daemon_args.append('10')
 
 	subprocess.check_call(['start-stop-daemon'] + daemon_args +
 			['--pidfile', pidfile,
@@ -46,7 +49,7 @@ try:
 				'--make-pidfile',
 				'--startas', executable,
 				'--'] + args)
-	if action == 'stop':
+	if action == 'stop' and os.path.exists(pidfile):
 		os.remove(pidfile)
 except (KeyboardInterrupt, subprocess.CalledProcessError):
 	sys.exit(1)
